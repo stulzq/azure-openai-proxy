@@ -34,7 +34,8 @@ ChatGPT Web: https://github.com/Chanzhaoyu/chatgpt-web
 Envs:
 
 - `OPENAI_API_KEY` Auzre OpenAI API Key
-- `OPENAI_API_BASE_URL` Proxy addr
+- `AZURE_OPENAI_ENDPOINT` Auzre OpenAI API Endpoint
+- `AZURE_OPENAI_DEPLOY` Auzre OpenAI API Deployment
 
 docker-compose.yml:
 
