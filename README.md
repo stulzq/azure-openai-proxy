@@ -25,20 +25,14 @@ API Key: This value can be found in the **Keys & Endpoint** section when examini
 docker run -d --name=azure-openai-proxy stulzq/azure-openai-proxy
 ````
 
-
-
 ### Use ChatGPT-Web
 
 ChatGPT Web: https://github.com/Chanzhaoyu/chatgpt-web
-
-
 
 Envs:
 
 - `OPENAI_API_KEY` Auzre OpenAI API Key
 - `OPENAI_API_BASE_URL` Proxy addr
-
-
 
 docker-compose.yml:
 
@@ -79,15 +73,14 @@ networks:
     driver: bridge
 ````
 
+Run:
 
+````shell
+docker compose up -d
+````
 
 ## Proxy Api
 
 | Api                  | Status |
 | -------------------- | ------ |
 | /v1/chat/completions | Ok     |
-
-
-
-
-
