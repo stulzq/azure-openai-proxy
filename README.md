@@ -47,7 +47,7 @@ version: '3'
 
 services:
   chatgpt-web:
-    image: chenzhaoyu94/chatgpt-web 
+    image: chenzhaoyu94/chatgpt-web
     ports:
       - 3002:3002
     environment:
@@ -62,10 +62,10 @@ services:
       - azure-openai
     networks:
       - chatgpt-ns
-  
+
   azure-openai:
-  	image: stulzq/azure-openai-proxy
-  	ports:
+    image: stulzq/azure-openai-proxy
+    ports:
       - 8080:8080
     environment:
       AZURE_OPENAI_ENDPOINT: <Auzre OpenAI API Endpoint>
@@ -73,7 +73,7 @@ services:
       AZURE_OPENAI_API_VER: 2023-03-15-preview
     networks:
       - chatgpt-ns
-      
+
 networks:
   chatgpt-ns:
     driver: bridge
