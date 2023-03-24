@@ -29,6 +29,8 @@ docker run -d --name=azure-openai-proxy stulzq/azure-openai-proxy
 
 ChatGPT Web: https://github.com/Chanzhaoyu/chatgpt-web
 
+![image-20230324163357406](docs/assets/images/image-20230324163357406.png)
+
 Envs:
 
 - `OPENAI_API_KEY` Auzre OpenAI API Key
