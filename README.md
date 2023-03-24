@@ -22,7 +22,33 @@ API Key: This value can be found in the **Keys & Endpoint** section when examini
 ### Use Docker
 
 ````shell
-docker run -d --name=azure-openai-proxy stulzq/azure-openai-proxy
+docker run -d -p 8080:8080 --name=azure-openai-proxy \
+  --env AZURE_OPENAI_ENDPOINT=your_azure_endpoint \
+  --env AZURE_OPENAI_API_VER=your_azure_api_ver \
+  --env AZURE_OPENAI_DEPLOY=your_azure_deploy \
+  stulzq/azure-openai-proxy:latest
+````
+
+Call API:
+
+````shell
+curl --location --request POST 'localhost:8080/v1/chat/completions' \
+-H 'Authorization: Bearer <Azure OpenAI Key>' \
+-H 'Content-Type: application/json' \
+-d '{
+    "max_tokens": 1000,
+    "model": "gpt-3.5-turbo",
+    "temperature": 0.8,
+    "top_p": 1,
+    "presence_penalty": 1,
+    "messages": [
+        {
+            "role": "user",
+            "content": "Hello"
+        }
+    ],
+    "stream": true
+}'
 ````
 
 ### Use ChatGPT-Web
