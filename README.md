@@ -7,11 +7,13 @@ Azure OpenAI Service Proxy. Convert Azure OpenAI API(aoai) to the official OpenA
 
 To successfully make a call against Azure OpenAI, you'll need the following:
 
-| Name                  | Desc                                                         | Example                       |
+| Name                  | Desc                                                         | Default                                                  |
 | --------------------- | ------------------------------------------------------------ | ----------------------------- |
-| AZURE_OPENAI_ENDPOINT | This value can be found in the **Keys & Endpoint** section when examining your resource from the Azure portal. Alternatively, you can find the value in **Azure OpenAI Studio** > **Playground** > **Code View**. An example endpoint is: `https://docs-test-001.openai.azure.com/`. | https://test.openai.azure.com |
-| AZURE_OPENAI_API_VER  | [See here](https://learn.microsoft.com/en-us/azure/cognitive-services/openai/quickstart?tabs=command-line&pivots=rest-api) or Azure OpenAI Studio | 2023-03-15-preview            |
-| AZURE_OPENAI_DEPLOY   | This value will correspond to the custom name you chose for your deployment when you deployed a model. This value can be found under **Resource Management** > **Deployments** in the Azure portal or alternatively under **Management** > **Deployments** in Azure OpenAI Studio. | gpt-35-turbo                  |
+| AZURE_OPENAI_ENDPOINT | This value can be found in the **Keys & Endpoint** section when examining your resource from the Azure portal. Alternatively, you can find the value in **Azure OpenAI Studio** > **Playground** > **Code View**. An example endpoint is: `https://docs-test-001.openai.azure.com/`. | N |
+| AZURE_OPENAI_API_VER  | [See here](https://learn.microsoft.com/en-us/azure/cognitive-services/openai/quickstart?tabs=command-line&pivots=rest-api) or Azure OpenAI Studio | 2023-03-15-preview |
+| AZURE_OPENAI_MODEL_MAPPER   | This value will correspond to the custom name you chose for your deployment when you deployed a model. This value can be found under **Resource Management** > **Deployments** in the Azure portal or alternatively under **Management** > **Deployments** in Azure OpenAI Studio. | gpt-3.5-turbo=gpt-3.5-turbo |
+
+> Model Mapper convert OpenAI offical Standard model name to Azure Deployment Model Name.
 
 ![Screenshot of the overview UI for an OpenAI Resource in the Azure portal with the endpoint & access keys location circled in red.](docs/assets/images/endpoint.png)
 
@@ -25,7 +27,7 @@ API Key: This value can be found in the **Keys & Endpoint** section when examini
 docker run -d -p 8080:8080 --name=azure-openai-proxy \
   --env AZURE_OPENAI_ENDPOINT=your_azure_endpoint \
   --env AZURE_OPENAI_API_VER=your_azure_api_ver \
-  --env AZURE_OPENAI_DEPLOY=your_azure_deploy \
+  --env AZURE_OPENAI_MODEL_MAPPER=your_azure_deploy_mapper \
   stulzq/azure-openai-proxy:latest
 ````
 
@@ -61,7 +63,7 @@ Envs:
 
 - `OPENAI_API_KEY` Auzre OpenAI API Key
 - `AZURE_OPENAI_ENDPOINT` Auzre OpenAI API Endpoint
-- `AZURE_OPENAI_DEPLOY` Auzre OpenAI API Deployment
+- `AZURE_OPENAI_MODEL_MAPPER` Auzre OpenAI API Deployment
 
 docker-compose.yml:
 
@@ -92,7 +94,7 @@ services:
       - 8080:8080
     environment:
       AZURE_OPENAI_ENDPOINT: <Auzre OpenAI API Endpoint>
-      AZURE_OPENAI_DEPLOY: <Auzre OpenAI API Deployment>
+      AZURE_OPENAI_MODEL_MAPPER: <Auzre OpenAI API Deployment Mapper>
       AZURE_OPENAI_API_VER: 2023-03-15-preview
     networks:
       - chatgpt-ns
@@ -108,8 +110,3 @@ Run:
 docker compose up -d
 ````
 
-## Proxy Api
-
-| Api                  | Status |
-| -------------------- | ------ |
-| /v1/chat/completions | Ok     |
