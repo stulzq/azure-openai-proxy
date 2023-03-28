@@ -1,4 +1,4 @@
-package apis
+package util
 
 type ApiResponse struct {
 	Error ErrorDescription `json:"error"`

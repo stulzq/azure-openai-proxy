@@ -4,7 +4,6 @@ import (
 	"context"
 	"github.com/gin-gonic/gin"
 	"github.com/pkg/errors"
-	"github.com/stulzq/azure-openai-proxy/openai"
 	"log"
 	"net/http"
 	"os"
@@ -13,8 +12,6 @@ import (
 )
 
 func main() {
-	openai.Init()
-
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
 	registerRoute(r)
