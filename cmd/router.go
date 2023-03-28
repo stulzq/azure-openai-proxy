@@ -8,5 +8,13 @@ import (
 // registerRoute registers all routes
 func registerRoute(r *gin.Engine) {
 	// https://platform.openai.com/docs/api-reference
-	r.Any("*path", azure.Proxy)
+	r.HEAD("/", func(c *gin.Context) {
+		c.Status(200)
+	})
+	r.Any("/health", func(c *gin.Context) {
+		c.Status(200)
+	})
+
+	r.Any("/v1/*path", azure.Proxy)
+
 }
