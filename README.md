@@ -13,7 +13,13 @@ To successfully make a call against Azure OpenAI, you'll need the following:
 | AZURE_OPENAI_API_VER  | [See here](https://learn.microsoft.com/en-us/azure/cognitive-services/openai/quickstart?tabs=command-line&pivots=rest-api) or Azure OpenAI Studio | 2023-03-15-preview |
 | AZURE_OPENAI_MODEL_MAPPER   | This value will correspond to the custom name you chose for your deployment when you deployed a model. This value can be found under **Resource Management** > **Deployments** in the Azure portal or alternatively under **Management** > **Deployments** in Azure OpenAI Studio. | gpt-3.5-turbo=gpt-3.5-turbo |
 
-> Model Mapper convert OpenAI offical Standard model name to Azure Deployment Model Name.
+AZURE_OPENAI_MODEL_MAPPER is a mapping from Azure OpenAI deployed model names to official OpenAI model names.
+
+AZURE_OPENAI_MODEL_MAPPER: \<OpenAI Model Name\>= \<Azure OpenAI deployment model name\>
+
+example:
+
+AZURE_OPENAI_MODEL_MAPPER: gpt-3.5-turbo=azure-gpt-35
 
 ![Screenshot of the overview UI for an OpenAI Resource in the Azure portal with the endpoint & access keys location circled in red.](docs/assets/images/endpoint.png)
 
