@@ -18,7 +18,6 @@ import (
 
 // Proxy Azure OpenAI
 func Proxy(c *gin.Context) {
-	// some code from https://github.com/diemus/azure-openai-proxy/blob/main/pkg/azure/proxy.go
 	director := func(req *http.Request) {
 		if req.Body == nil {
 			util.SendError(c, errors.New("request body is empty"))
