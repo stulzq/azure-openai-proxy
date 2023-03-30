@@ -13,9 +13,11 @@ To successfully make a call against Azure OpenAI, you'll need the following:
 | AZURE_OPENAI_API_VER  | [See here](https://learn.microsoft.com/en-us/azure/cognitive-services/openai/quickstart?tabs=command-line&pivots=rest-api) or Azure OpenAI Studio | 2023-03-15-preview |
 | AZURE_OPENAI_MODEL_MAPPER   | This value will correspond to the custom name you chose for your deployment when you deployed a model. This value can be found under **Resource Management** > **Deployments** in the Azure portal or alternatively under **Management** > **Deployments** in Azure OpenAI Studio. | gpt-3.5-turbo=gpt-35-turbo |
 
-AZURE_OPENAI_MODEL_MAPPER is a mapping from Azure OpenAI deployed model names to official OpenAI model names.
+`AZURE_OPENAI_MODEL_MAPPER` is a mapping from Azure OpenAI deployed model names to official OpenAI model names. You can use commas to separate multiple mappings.
 
-AZURE_OPENAI_MODEL_MAPPER: \<OpenAI Model Name\>= \<Azure OpenAI deployment model name\>
+Format：
+
+`AZURE_OPENAI_MODEL_MAPPER`: \<OpenAI Model Name\>= \<Azure OpenAI deployment model name\>
 
 OpenAI Model Names: https://platform.openai.com/docs/models
 
@@ -23,7 +25,9 @@ Azure Deployment Names: **Resource Management** > **Deployments**
 
 example:
 
+````shell
 AZURE_OPENAI_MODEL_MAPPER: gpt-3.5-turbo=azure-gpt-35
+````
 
 ![Screenshot of the overview UI for an OpenAI Resource in the Azure portal with the endpoint & access keys location circled in red.](docs/assets/images/endpoint.png)
 
@@ -73,7 +77,7 @@ Envs:
 
 - `OPENAI_API_KEY` Auzre OpenAI API Key
 - `AZURE_OPENAI_ENDPOINT` Auzre OpenAI API Endpoint
-- `AZURE_OPENAI_MODEL_MAPPER` Auzre OpenAI API Deployment
+- `AZURE_OPENAI_MODEL_MAPPER` Auzre OpenAI API Deployment Name Mappings
 
 docker-compose.yml:
 
