@@ -3,6 +3,10 @@ name: Build
 on:
   push:
     branches: [ "master" ]
+    paths-ignore:
+      - 'docs/**'
+      - 'assets/**'
+      - '**/*.gitignore'
   pull_request:
     branches: [ "master" ]
 
