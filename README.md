@@ -15,7 +15,7 @@ To successfully make a call against Azure OpenAI, you'll need the following:
 
 `AZURE_OPENAI_MODEL_MAPPER` is a mapping from Azure OpenAI deployed model names to official OpenAI model names. You can use commas to separate multiple mappings.
 
-Format：
+**Format：**
 
 `AZURE_OPENAI_MODEL_MAPPER`: \<OpenAI Model Name\>= \<Azure OpenAI deployment model name\>
 
@@ -23,7 +23,7 @@ OpenAI Model Names: https://platform.openai.com/docs/models
 
 Azure Deployment Names: **Resource Management** > **Deployments**
 
-example:
+**Example:**
 
 ````shell
 AZURE_OPENAI_MODEL_MAPPER: gpt-3.5-turbo=azure-gpt-35
