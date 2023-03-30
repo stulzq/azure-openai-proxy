@@ -1,10 +1,12 @@
 # azure-openai-proxy
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/stulzq/azure-openai-proxy)](https://goreportcard.com/badge/github.com/stulzq/azure-openai-proxy)
+
 English|[中文](https://www.cnblogs.com/stulzq/p/17271937.html)
 
 Azure OpenAI Service Proxy, convert OpenAI official API request to Azure OpenAI API request, support all models.
 
-![aoai-proxy.jpg](assets%2Fimages%2Faoai-proxy.jpg)
+![aoai-proxy.jpg](assets/images/aoai-proxy.jpg)
 
 ## Get Start
 
