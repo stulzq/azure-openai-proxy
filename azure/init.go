@@ -1,7 +1,7 @@
 package azure
 
 import (
-	"github.com/stulzq/azure-openai-proxy/pkg/constant"
+	"github.com/stulzq/azure-openai-proxy/constant"
 	"log"
 	"net/url"
 	"os"

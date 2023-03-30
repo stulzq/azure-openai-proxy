@@ -3,7 +3,7 @@ package azure
 import (
 	"bytes"
 	"fmt"
-	"github.com/stulzq/azure-openai-proxy/pkg/util"
+	"github.com/stulzq/azure-openai-proxy/util"
 	"io"
 	"log"
 	"net/http"
