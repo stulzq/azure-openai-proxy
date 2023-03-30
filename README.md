@@ -1,5 +1,7 @@
 # azure-openai-proxy
-Azure OpenAI Service Proxy. Convert Azure OpenAI API(aoai) to the official OpenAI API(oai) standard.
+Azure OpenAI Service Proxy. Convert OpenAI official API calls to Azure OpenAI API calls.
+
+![aoai-proxy.jpg](docs%2Fassets%2Fimages%2Faoai-proxy.jpg)
 
 ## Get Start
 
