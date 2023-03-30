@@ -3,9 +3,7 @@ package azure
 import (
 	"bytes"
 	"fmt"
-	"github.com/bytedance/sonic"
-	"github.com/pkg/errors"
-	"github.com/stulzq/azure-openai-proxy/util"
+	"github.com/stulzq/azure-openai-proxy/pkg/util"
 	"io"
 	"log"
 	"net/http"
@@ -13,12 +11,14 @@ import (
 	"path"
 	"strings"
 
+	"github.com/bytedance/sonic"
 	"github.com/gin-gonic/gin"
+	"github.com/pkg/errors"
 )
 
 // Proxy Azure OpenAI
 func Proxy(c *gin.Context) {
-	// improve performance some code from https://github.com/diemus/azure-openai-proxy/blob/main/pkg/azure/proxy.go
+	// some code from https://github.com/diemus/azure-openai-proxy/blob/main/pkg/azure/proxy.go
 	director := func(req *http.Request) {
 		if req.Body == nil {
 			util.SendError(c, errors.New("request body is empty"))
@@ -34,6 +34,7 @@ func Proxy(c *gin.Context) {
 			return
 		}
 
+		// get deployment from request
 		deployment, err := model.String()
 		if err != nil {
 			util.SendError(c, errors.Wrap(err, "get deployment error"))
@@ -64,7 +65,7 @@ func Proxy(c *gin.Context) {
 	proxy := &httputil.ReverseProxy{Director: director}
 	proxy.ServeHTTP(c.Writer, c.Request)
 
-	// https://github.com/Chanzhaoyu/chatgpt-web/issues/831
+	// issue: https://github.com/Chanzhaoyu/chatgpt-web/issues/831
 	if c.Writer.Header().Get("Content-Type") == "text/event-stream" {
 		if _, err := c.Writer.Write([]byte{'\n'}); err != nil {
 			log.Printf("rewrite response error: %v", err)

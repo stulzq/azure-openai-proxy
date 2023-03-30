@@ -1,13 +1,12 @@
 package azure
 
 import (
+	"github.com/stulzq/azure-openai-proxy/pkg/constant"
 	"log"
 	"net/url"
 	"os"
 	"regexp"
 	"strings"
-
-	"github.com/stulzq/azure-openai-proxy/constant"
 )
 
 const (

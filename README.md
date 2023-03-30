@@ -2,7 +2,7 @@
 
 Azure OpenAI Service Proxy. Convert OpenAI official API request to Azure OpenAI API request.
 
-![aoai-proxy.jpg](docs%2Fassets%2Fimages%2Faoai-proxy.jpg)
+![aoai-proxy.jpg](assets%2Fimages%2Faoai-proxy.jpg)
 
 ## Get Start
 
@@ -32,7 +32,7 @@ Azure Deployment Names: **Resource Management** > **Deployments**
 AZURE_OPENAI_MODEL_MAPPER: gpt-3.5-turbo=azure-gpt-35
 ````
 
-![Screenshot of the overview UI for an OpenAI Resource in the Azure portal with the endpoint & access keys location circled in red.](docs/assets/images/endpoint.png)
+![Screenshot of the overview UI for an OpenAI Resource in the Azure portal with the endpoint & access keys location circled in red.](assets/images/endpoint.png)
 
 API Key: This value can be found in the **Keys & Endpoint** section when examining your resource from the Azure portal. You can use either `KEY1` or `KEY2`. 
 
@@ -74,7 +74,7 @@ curl --location --request POST 'localhost:8080/v1/chat/completions' \
 
 ChatGPT Web: https://github.com/Chanzhaoyu/chatgpt-web
 
-![image-20230324163357406](docs/assets/images/image-20230324163357406.png)
+![chatgpt-web](assets/images/chatgpt-web.png)
 
 Envs:
 

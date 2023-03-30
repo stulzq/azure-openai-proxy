@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/stulzq/azure-openai-proxy/azure"
+	"github.com/stulzq/azure-openai-proxy/pkg/azure"
 )
 
 // registerRoute registers all routes

@@ -2,13 +2,14 @@ package main
 
 import (
 	"context"
-	"github.com/gin-gonic/gin"
-	"github.com/pkg/errors"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
+
+	"github.com/gin-gonic/gin"
+	"github.com/pkg/errors"
 )
 
 func main() {
