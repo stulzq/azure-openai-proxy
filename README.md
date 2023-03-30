@@ -1,6 +1,6 @@
 # azure-openai-proxy
 
-Azure OpenAI Service Proxy. Convert OpenAI official API request to Azure OpenAI API request.
+Azure OpenAI Service Proxy, convert OpenAI official API request to Azure OpenAI API request, support all models.
 
 ![aoai-proxy.jpg](docs%2Fassets%2Fimages%2Faoai-proxy.jpg)
 
@@ -36,7 +36,6 @@ AZURE_OPENAI_MODEL_MAPPER: gpt-3.5-turbo=azure-gpt-35
 
 API Key: This value can be found in the **Keys & Endpoint** section when examining your resource from the Azure portal. You can use either `KEY1` or `KEY2`. 
 
-> Use api key when call http api like Offical OpenAI.
 
 ### Use Docker
 
