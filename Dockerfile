@@ -1,6 +1,15 @@
+FROM golang:1.19 AS building
+
+COPY . /building
+WORKDIR /building
+
+RUN make build
+
 FROM alpine:3
 
-EXPOSE 8080
-COPY ./bin/azure-openai-proxy /usr/bin
+WORKDIR /app
 
-ENTRYPOINT ["/usr/bin/azure-openai-proxy"]
+EXPOSE 8080
+COPY --from=building /building/bin .
+
+ENTRYPOINT ["/app/azure-openai-proxy"]
