@@ -4,7 +4,7 @@
 
 English|[中文](https://www.cnblogs.com/stulzq/p/17271937.html)
 
-Azure OpenAI Service Proxy, convert OpenAI official API request to Azure OpenAI API request, support all models.
+Azure OpenAI Service Proxy, convert OpenAI official API request to Azure OpenAI API request, support all models, support GPT-4.
 
 ![aoai-proxy.jpg](assets/images/aoai-proxy.jpg)
 
