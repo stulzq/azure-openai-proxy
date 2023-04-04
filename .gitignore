@@ -18,3 +18,4 @@
 bin/
 release/
 docker-compose.yml
+dist/

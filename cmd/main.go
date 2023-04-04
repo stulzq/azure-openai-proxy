@@ -2,6 +2,9 @@ package main
 
 import (
 	"context"
+	"flag"
+	"fmt"
+	"github.com/stulzq/azure-openai-proxy/azure"
 	"log"
 	"net/http"
 	"os"
@@ -12,7 +15,16 @@ import (
 	"github.com/pkg/errors"
 )
 
+var (
+	version   = ""
+	buildDate = ""
+	gitCommit = ""
+)
+
 func main() {
+	parseFlag()
+
+	azure.Init()
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
 	registerRoute(r)
@@ -42,4 +54,15 @@ func runServer(srv *http.Server) {
 		log.Fatal("Server Shutdown:", err)
 	}
 	log.Println("Server exiting")
+}
+
+func parseFlag() {
+	ver := flag.Bool("v", false, "version")
+	flag.Parse()
+	if *ver {
+		fmt.Println("version:", version)
+		fmt.Println("buildDate:", buildDate)
+		fmt.Println("gitCommit:", gitCommit)
+		os.Exit(0)
+	}
 }

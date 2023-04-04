@@ -25,7 +25,7 @@ var (
 	fallbackModelMapper = regexp.MustCompile(`[.:]`)
 )
 
-func init() {
+func Init() {
 	AzureOpenAIAPIVer = os.Getenv(constant.ENV_AZURE_OPENAI_API_VER)
 	AzureOpenAIEndpoint = os.Getenv(constant.ENV_AZURE_OPENAI_ENDPOINT)
 
