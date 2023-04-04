@@ -1,6 +1,10 @@
 # azure-openai-proxy
 
+[![License](https://img.shields.io/github/license/koordinator-sh/koordinator.svg?color=4EB1BA&style=flat-square)](https://opensource.org/licenses/Apache-2.0)
+[![GitHub release](https://img.shields.io/github/v/release/stulzq/azure-openai-proxy.svg?style=flat-square)](https://github.com/stulzq/azure-openai-proxy/releases/latest)
 [![Go Report Card](https://goreportcard.com/badge/github.com/stulzq/azure-openai-proxy)](https://goreportcard.com/badge/github.com/stulzq/azure-openai-proxy)
+[![CI](https://img.shields.io/github/actions/workflow/status/stulzq/azure-openai-proxy/build.yml?label=CI&logo=github&style=flat-square&branch=master)](https://github.com/stulzq/azure-openai-proxy/actions/workflows/build.yml)
+[![PRs Welcome](https://badgen.net/badge/PRs/welcome/green?icon=https://api.iconify.design/octicon:git-pull-request.svg?color=white&style=flat-square)](CONTRIBUTING.md)
 
 English|[中文](https://www.cnblogs.com/stulzq/p/17271937.html)
 
