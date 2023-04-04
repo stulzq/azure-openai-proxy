@@ -1,4 +1,4 @@
-name: Build Image
+name: Release
 
 on:
   workflow_dispatch:
@@ -12,7 +12,7 @@ on:
       - 'v*'
 
 jobs:
-  docker:
+  build-image:
     runs-on: ubuntu-latest
     steps:
       - name: Set up QEMU
