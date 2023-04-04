@@ -3,10 +3,13 @@ name: Build Image
 on:
   workflow_dispatch:
     inputs:
-      tags:
+      tag:
         default: 'latest'
         required: true
         description: 'Docker image tag'
+  push:
+    tags:
+      - 'v*'
 
 jobs:
   docker:
@@ -30,6 +33,14 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Parse Tag Name
+        run: |
+          if [ x${{ github.event.inputs.tag }} == x"" ]; then
+            echo "TAG_NAME=${{ github.ref_name }}" >> $GITHUB_ENV
+          else
+            echo "TAG_NAME=${{ github.event.inputs.tag }}" >> $GITHUB_ENV
+          fi
+
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
@@ -40,8 +51,8 @@ jobs:
             org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
             org.opencontainers.image.licenses=Apache-2.0
           tags: |
-            ${{ github.repository }}:${{ github.event.inputs.tags }}
-            ghcr.io/${{ github.repository }}:${{ github.event.inputs.tags }}
+            ${{ github.repository }}:${{ env.TAG_NAME }}
+            ghcr.io/${{ github.repository }}:${{ env.TAG_NAME }}
           # https://docs.docker.com/build/cache/backends/gha/
           cache-from: type=gha
           cache-to: type=gha,mode=max
