@@ -1,7 +1,9 @@
 # Make sure to check the documentation at https://goreleaser.com
+project_name: azure-openai-proxy
+env:
+  - GIT_URL=https://github.com/stulzq/azure-openai-proxy
 before:
   hooks:
-    # You may remove this if you don't use go modules.
     - go mod tidy
 builds:
   - id: azure-openai-proxy
