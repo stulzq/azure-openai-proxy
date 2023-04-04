@@ -1,5 +1,4 @@
 # Make sure to check the documentation at https://goreleaser.com
-project_name: azure-openai-proxy
 env:
   - GIT_URL=https://github.com/stulzq/azure-openai-proxy
 before:
@@ -17,6 +16,8 @@ builds:
       - amd64
     main: ./cmd
     binary: azure-openai-proxy
+    flags:
+      - -trimpath
     ldflags:
       - -s -w
       - -X main.version={{ .Version }}
@@ -41,13 +42,43 @@ checksum:
   name_template: 'checksums.txt'
 snapshot:
   name_template: "{{ incpatch .Version }}-next"
+
+# https://goreleaser.com/customization/changelog/
 changelog:
   sort: asc
+  use: github
   filters:
     exclude:
       - '^build:'
       - '^ci:'
-      - '^docs:'
+#      - '^docs:'
       - '^test:'
       - '^chore:'
       - '^feat(deps):'
+      - 'merge conflict'
+      - Merge pull request
+      - Merge remote-tracking branch
+      - Merge branch
+      - go mod tidy
+      - '^Update'
+  groups:
+    - title: Dependency updates
+      regexp: '^.*?(feat|fix)\(deps\)!?:.+$'
+      order: 300
+    - title: 'New Features'
+      regexp: '^.*?feat(\([[:word:]]+\))??!?:.+$'
+      order: 100
+    - title: 'Security updates'
+      regexp: '^.*?sec(\([[:word:]]+\))??!?:.+$'
+      order: 150
+    - title: 'Bug fixes'
+      regexp: '^.*?fix(\([[:word:]]+\))??!?:.+$'
+      order: 200
+    - title: 'Documentation updates'
+      regexp: '^.*?doc(\([[:word:]]+\))??!?:.+$'
+      order: 400
+#    - title: 'Build process updates'
+#      regexp: '^.*?build(\([[:word:]]+\))??!?:.+$'
+#      order: 400
+    - title: Other work
+      order: 9999
