@@ -7,8 +7,14 @@ on:
       - 'docs/**'
       - 'assets/**'
       - '**/*.gitignore'
+      - '**/*.md'
   pull_request:
     branches: [ "master" ]
+    paths-ignore:
+      - 'docs/**'
+      - 'assets/**'
+      - '**/*.gitignore'
+      - '**/*.md'
 
 jobs:
   build:
