@@ -43,12 +43,12 @@ jobs:
 
       - name: Build and push
         uses: docker/build-push-action@v4
+        env:
+          BUILDX_NO_DEFAULT_ATTESTATIONS: 1 # https://github.com/orgs/community/discussions/45969
         with:
           platforms: linux/amd64,linux/arm64
           push: true
           pull: true
-          env:
-            BUILDX_NO_DEFAULT_ATTESTATIONS: 1 # https://github.com/orgs/community/discussions/45969
           labels: |
             org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
             org.opencontainers.image.licenses=Apache-2.0
