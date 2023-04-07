@@ -40,8 +40,6 @@ jobs:
           else
             echo "TAG_NAME=${{ github.event.inputs.tag }}" >> $GITHUB_ENV
           fi
-          echo "TagName: !!!!!"
-          echo ${{ github.event.inputs.tag }}
 
       - name: Build and push
         uses: docker/build-push-action@v4
