@@ -83,3 +83,6 @@ changelog:
 #      order: 400
     - title: Other work
       order: 9999
+release:
+  footer: |
+    **Full Changelog**: https://github.com/stulzq/azure-openai-proxy/compare/{{ .PreviousTag }}...{{ .Tag }}
