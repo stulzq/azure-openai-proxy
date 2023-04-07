@@ -44,7 +44,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
-          platforms: linux/amd64
+          platforms: linux/amd64,linux/arm64/v8
           push: true
           pull: true
           labels: |
@@ -59,6 +59,7 @@ jobs:
 
   goreleaser:
     runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.tag == '' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
