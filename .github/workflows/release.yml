@@ -47,14 +47,15 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           pull: true
+          env:
+            BUILDX_NO_DEFAULT_ATTESTATIONS: 1 # https://github.com/orgs/community/discussions/45969
           labels: |
             org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
             org.opencontainers.image.licenses=Apache-2.0
           tags: |
             ${{ github.repository }}:${{ env.TAG_NAME }}
             ghcr.io/${{ github.repository }}:${{ env.TAG_NAME }}
-          # https://docs.docker.com/build/cache/backends/gha/
-          cache-from: type=gha
+          cache-from: type=gha # https://docs.docker.com/build/cache/backends/gha/
           cache-to: type=gha,mode=max
 
   goreleaser:
