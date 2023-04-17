@@ -86,9 +86,9 @@ ChatGPT Web: https://github.com/Chanzhaoyu/chatgpt-web
 
 Envs:
 
-- `OPENAI_API_KEY` Auzre OpenAI API Key
-- `AZURE_OPENAI_ENDPOINT` Auzre OpenAI API Endpoint
-- `AZURE_OPENAI_MODEL_MAPPER` Auzre OpenAI API Deployment Name Mappings
+- `OPENAI_API_KEY` Azure OpenAI API Key
+- `AZURE_OPENAI_ENDPOINT` Azure OpenAI API Endpoint
+- `AZURE_OPENAI_MODEL_MAPPER` Azure OpenAI API Deployment Name Mappings
 
 docker-compose.yml:
 
@@ -101,7 +101,7 @@ services:
     ports:
       - 3002:3002
     environment:
-      OPENAI_API_KEY: <Auzre OpenAI API Key>
+      OPENAI_API_KEY: <Azure OpenAI API Key>
       OPENAI_API_BASE_URL: http://azure-openai:8080
       AUTH_SECRET_KEY: ""
       MAX_REQUEST_PER_HOUR: 1000
@@ -118,8 +118,8 @@ services:
     ports:
       - 8080:8080
     environment:
-      AZURE_OPENAI_ENDPOINT: <Auzre OpenAI API Endpoint>
-      AZURE_OPENAI_MODEL_MAPPER: <Auzre OpenAI API Deployment Mapper>
+      AZURE_OPENAI_ENDPOINT: <Azure OpenAI API Endpoint>
+      AZURE_OPENAI_MODEL_MAPPER: <Azure OpenAI API Deployment Mapper>
       AZURE_OPENAI_API_VER: 2023-03-15-preview
     networks:
       - chatgpt-ns
