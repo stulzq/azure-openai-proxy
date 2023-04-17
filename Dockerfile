@@ -5,11 +5,12 @@ WORKDIR /builder
 
 RUN make build
 
-FROM alpine:3
+FROM scratch
 
 WORKDIR /app
 
 EXPOSE 8080
 COPY --from=builder /builder/bin .
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 
 ENTRYPOINT ["/app/azure-openai-proxy"]
