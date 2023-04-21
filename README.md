@@ -103,6 +103,7 @@ services:
     environment:
       OPENAI_API_KEY: <Azure OpenAI API Key>
       OPENAI_API_BASE_URL: http://azure-openai:8080
+      # OPENAI_API_MODEL: gpt-4
       AUTH_SECRET_KEY: ""
       MAX_REQUEST_PER_HOUR: 1000
       TIMEOUT_MS: 60000
