@@ -18,6 +18,14 @@ import (
 
 // Proxy Azure OpenAI
 func Proxy(c *gin.Context) {
+	if c.Request.Method == http.MethodOptions {
+		c.Header("Access-Control-Allow-Origin", "*")
+		c.Header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+		c.Header("Access-Control-Allow-Headers", "Authorization")
+		c.Status(200)
+		return
+	}
+
 	director := func(req *http.Request) {
 		if req.Body == nil {
 			util.SendError(c, errors.New("request body is empty"))
