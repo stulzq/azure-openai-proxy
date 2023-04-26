@@ -17,8 +17,8 @@ Verified support projects：
 
 | Name                                                     | Status |
 | -------------------------------------------------------- | ------ |
-| [chatgpt-web](https://github.com/Chanzhaoyu/chatgpt-web) | [x]    |
-| [chatbox](https://github.com/Bin-Huang/chatbox)          | [x]    |
+| [chatgpt-web](https://github.com/Chanzhaoyu/chatgpt-web) | √   |
+| [chatbox](https://github.com/Bin-Huang/chatbox)          | √    |
 
 ## Get Start
 
