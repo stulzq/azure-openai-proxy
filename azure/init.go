@@ -74,10 +74,15 @@ func InitFromEnvironmentVariables(apiVersion, endpoint, openaiModelMapper string
 				log.Fatalf("error parsing %s, invalid value %s", constant.ENV_AZURE_OPENAI_MODEL_MAPPER, pair)
 			}
 			modelName, deploymentName := info[0], info[1]
+			u, err := url.Parse(endpoint)
+			if err != nil {
+				log.Fatalf("parse endpoint error: %w", err)
+			}
 			ModelDeploymentConfig[modelName] = DeploymentConfig{
 				DeploymentName: deploymentName,
 				ModelName:      modelName,
 				Endpoint:       endpoint,
+				EndpointUrl:    u,
 				ApiKey:         "",
 				ApiVersion:     apiVersion,
 			}
