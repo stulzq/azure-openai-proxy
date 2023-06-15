@@ -1,6 +1,7 @@
 package util
 
 import (
+	"log"
 	"os"
 	"path"
 	"path/filepath"
@@ -8,35 +9,41 @@ import (
 	"strings"
 )
 
-func GetCurrentAbsPath() string {
-	// 最终方案-全兼容
-	dir := getCurrentAbPathByExecutable()
+func GetCurrentAbsPath() (string, bool) {
+	// Work in dev and prod runtime
+	isDebug := false
+	absDir := getCurrentAbsPathByExecutable()
 	tmpDir, _ := filepath.EvalSymlinks(os.TempDir())
-	// 如果是临时目录或者是goland运行的目录，那么就用caller的方式获取
-	if strings.Contains(dir, tmpDir) || strings.Contains(dir, "GoLand") {
-		return getCurrentAbPathByCaller()
+	// If it is a temporary directory or the directory contains 'GoLand' keyword,
+	// then retrieve it using the `caller` method.
+	if strings.Contains(absDir, tmpDir) || strings.Contains(absDir, "GoLand") {
+		isDebug = true
+		return getCurrentAbsPathByCaller(), isDebug
 	}
-	return dir
+	return absDir, isDebug
 }
 
 func GetWorkdir() string {
-	currentAbsPath := GetCurrentAbsPath()
-	workDir := filepath.Join(currentAbsPath, "..")
+	workDir, isDebug := GetCurrentAbsPath()
+	if isDebug {
+		workDir = filepath.Join(workDir, "..")
+	}
 	return workDir
 }
 
-// 获取当前执行文件绝对路径
-func getCurrentAbPathByExecutable() string {
+// getCurrentAbsPathByExecutable Retrieve the absolute path to the currently executing file.
+func getCurrentAbsPathByExecutable() string {
 	exePath, err := os.Executable()
+	log.Printf("executable path: %s", exePath)
 	if err != nil {
 		panic(err)
 	}
-	res, _ := filepath.EvalSymlinks(filepath.Dir(exePath))
-	return res
+	res, _ := filepath.EvalSymlinks(exePath)
+	return path.Dir(res)
 }
 
-// 获取当前执行文件绝对路径（go run）
-func getCurrentAbPathByCaller() string {
+// getCurrentAbsPathByCaller Retrieve the absolute path to the currently executing file.（by `go run`）
+func getCurrentAbsPathByCaller() string {
 	var abPath string
 	_, filename, _, ok := runtime.Caller(0)
 	if ok {
