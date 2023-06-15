@@ -42,6 +42,7 @@ func Init() error {
 	}
 
 	// ensure apiBase likes /v1
+	viper.SetDefault("api_base", "/v1")
 	apiBase := viper.GetString("api_base")
 	if !strings.HasPrefix(apiBase, "/") {
 		apiBase = "/" + apiBase
