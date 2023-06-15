@@ -76,7 +76,7 @@ func InitFromEnvironmentVariables(apiVersion, endpoint, openaiModelMapper string
 			modelName, deploymentName := info[0], info[1]
 			u, err := url.Parse(endpoint)
 			if err != nil {
-				log.Fatalf("parse endpoint error: %w", err)
+				log.Fatalf("parse endpoint error: %s", err.Error())
 			}
 			ModelDeploymentConfig[modelName] = DeploymentConfig{
 				DeploymentName: deploymentName,
