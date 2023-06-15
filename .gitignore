@@ -19,3 +19,4 @@ bin/
 release/
 docker-compose.yml
 dist/
+config/config.yaml

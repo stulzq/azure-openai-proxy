@@ -19,6 +19,7 @@ Verified support projects：
 | -------------------------------------------------------- | ------ |
 | [chatgpt-web](https://github.com/Chanzhaoyu/chatgpt-web) | √   |
 | [chatbox](https://github.com/Bin-Huang/chatbox)          | √    |
+| [langchain](https://python.langchain.com/en/latest/)     | √    |
 
 ## Get Start
 
@@ -56,10 +57,16 @@ API Key: This value can be found in the **Keys & Endpoint** section when examini
 ### Use Docker
 
 ````shell
+# config by environment 
 docker run -d -p 8080:8080 --name=azure-openai-proxy \
   --env AZURE_OPENAI_ENDPOINT=your_azure_endpoint \
   --env AZURE_OPENAI_API_VER=your_azure_api_ver \
   --env AZURE_OPENAI_MODEL_MAPPER=your_azure_deploy_mapper \
+  stulzq/azure-openai-proxy:latest
+
+# config by file
+docker run -d -p 8080:8080 --name=azure-openai-proxy \
+  -v /path/to/config-file.yaml:/app/config/config.yaml \
   stulzq/azure-openai-proxy:latest
 ````
 

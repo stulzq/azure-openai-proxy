@@ -4,6 +4,7 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"github.com/spf13/viper"
 	"github.com/stulzq/azure-openai-proxy/azure"
 	"log"
 	"net/http"
@@ -22,6 +23,7 @@ var (
 )
 
 func main() {
+	viper.AutomaticEnv()
 	parseFlag()
 
 	azure.Init()
