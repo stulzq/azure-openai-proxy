@@ -42,6 +42,7 @@ func Init() error {
 	}
 
 	// ensure apiBase likes /v1
+	viper.SetDefault("api_base", "/v1")
 	apiBase := viper.GetString("api_base")
 	if !strings.HasPrefix(apiBase, "/") {
 		apiBase = "/" + apiBase
@@ -73,10 +74,15 @@ func InitFromEnvironmentVariables(apiVersion, endpoint, openaiModelMapper string
 				log.Fatalf("error parsing %s, invalid value %s", constant.ENV_AZURE_OPENAI_MODEL_MAPPER, pair)
 			}
 			modelName, deploymentName := info[0], info[1]
+			u, err := url.Parse(endpoint)
+			if err != nil {
+				log.Fatalf("parse endpoint error: %s", err.Error())
+			}
 			ModelDeploymentConfig[modelName] = DeploymentConfig{
 				DeploymentName: deploymentName,
 				ModelName:      modelName,
 				Endpoint:       endpoint,
+				EndpointUrl:    u,
 				ApiKey:         "",
 				ApiVersion:     apiVersion,
 			}
