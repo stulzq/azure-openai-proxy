@@ -7,6 +7,7 @@ import (
 	"github.com/stulzq/azure-openai-proxy/util"
 	"log"
 	"net/url"
+	"path/filepath"
 	"strings"
 )
 
@@ -32,7 +33,7 @@ func Init() error {
 	openaiModelMapper = viper.GetString(constant.ENV_AZURE_OPENAI_MODEL_MAPPER)
 	if endpoint != "" && openaiModelMapper != "" {
 		if apiVersion == "" {
-			apiVersion = "2023-03-15-preview"
+			apiVersion = "2023-07-01-preview"
 		}
 		InitFromEnvironmentVariables(apiVersion, endpoint, openaiModelMapper)
 	} else {
@@ -92,10 +93,16 @@ func InitFromEnvironmentVariables(apiVersion, endpoint, openaiModelMapper string
 
 func InitFromConfigFile() error {
 	log.Println("Init from config file")
-	workDir := util.GetWorkdir()
-	viper.SetConfigName("config")
+
+	configFile := viper.GetString("configFile")
+	if configFile == "" {
+		configFile = filepath.Join(util.GetWorkdir(), "config.yaml")
+	} else if !filepath.IsAbs(configFile) {
+		configFile = filepath.Join(util.GetWorkdir(), configFile)
+	}
+
 	viper.SetConfigType("yaml")
-	viper.AddConfigPath(fmt.Sprintf("%s/config", workDir))
+	viper.SetConfigFile(configFile)
 	if err := viper.ReadInConfig(); err != nil {
 		log.Printf("read config file error: %+v\n", err)
 		return err
@@ -108,5 +115,7 @@ func InitFromConfigFile() error {
 	for _, configItem := range C.DeploymentConfig {
 		ModelDeploymentConfig[configItem.ModelName] = configItem
 	}
+
+	log.Println("read config file success")
 	return nil
 }

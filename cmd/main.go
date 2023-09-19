@@ -2,8 +2,8 @@ package main
 
 import (
 	"context"
-	"flag"
 	"fmt"
+	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 	"github.com/stulzq/azure-openai-proxy/azure"
 	"log"
@@ -26,7 +26,11 @@ func main() {
 	viper.AutomaticEnv()
 	parseFlag()
 
-	azure.Init()
+	err := azure.Init()
+	if err != nil {
+		panic(err)
+	}
+
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
 	registerRoute(r)
@@ -59,9 +63,13 @@ func runServer(srv *http.Server) {
 }
 
 func parseFlag() {
-	ver := flag.Bool("v", false, "version")
-	flag.Parse()
-	if *ver {
+	pflag.StringP("configFile", "c", "config.yaml", "config file")
+	pflag.BoolP("version", "v", false, "version information")
+	pflag.Parse()
+	if err := viper.BindPFlags(pflag.CommandLine); err != nil {
+		panic(err)
+	}
+	if viper.GetBool("v") {
 		fmt.Println("version:", version)
 		fmt.Println("buildDate:", buildDate)
 		fmt.Println("gitCommit:", gitCommit)
