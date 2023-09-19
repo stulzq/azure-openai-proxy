@@ -6,6 +6,7 @@
 [![CI](https://img.shields.io/github/actions/workflow/status/stulzq/azure-openai-proxy/ci.yml?label=CI&logo=github&style=flat-square&branch=master)](https://github.com/stulzq/azure-openai-proxy/actions/workflows/ci.yml)
 [![Release](https://img.shields.io/github/actions/workflow/status/stulzq/azure-openai-proxy/release.yml?label=Release&logo=github&style=flat-square&branch=master)](https://github.com/stulzq/azure-openai-proxy/actions/workflows/release.yml)
 [![PRs Welcome](https://badgen.net/badge/PRs/welcome/green?icon=https://api.iconify.design/octicon:git-pull-request.svg?color=white&style=flat-square)](CONTRIBUTING.md)
+[![Docker Pulls](https://img.shields.io/docker/pulls/stulzq/azure-openai-proxy.svg?style=flat-square)]([https://hub.docker.com/u/stulzq](https://hub.docker.com/r/stulzq/azure-openai-proxy/tags))
 
 English|[中文](https://www.cnblogs.com/stulzq/p/17271937.html)
 
