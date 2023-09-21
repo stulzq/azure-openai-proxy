@@ -94,6 +94,50 @@ curl --location --request POST 'localhost:8080/v1/chat/completions' \
 }'
 ````
 
+### Use ChatGPT-Next-Web
+
+![chatgpt-web](assets/images/chatgpt-next-web.png)
+
+docker-compose.yml
+
+````yaml
+version: '3'
+
+services:
+  chatgpt-web:
+    image: yidadaa/chatgpt-next-web
+    ports:
+      - 3000:3000
+    environment:
+      OPENAI_API_KEY: <Azure OpenAI API Key>
+      BASE_URL: http://azure-openai:8080
+      CODE: ""
+      HIDE_USER_API_KEY: 1
+      HIDE_BALANCE_QUERY: 1
+    depends_on:
+      - azure-openai
+    links:
+      - azure-openai
+    networks:
+      - chatgpt-ns
+
+  azure-openai:
+    image: stulzq/azure-openai-proxy
+    ports:
+      - 8080:8080
+    environment:
+      AZURE_OPENAI_ENDPOINT: <Azure OpenAI API Endpoint>
+      AZURE_OPENAI_MODEL_MAPPER: <Azure OpenAI API Deployment Mapper>
+      # AZURE_OPENAI_MODEL_MAPPER: gpt-4=gpt-4,gpt-3.5-turbo=gpt-35-turbo
+      AZURE_OPENAI_API_VER: 2023-07-01-preview
+    networks:
+      - chatgpt-ns
+
+networks:
+  chatgpt-ns:
+    driver: bridge
+````
+
 ### Use ChatGPT-Web
 
 ChatGPT Web: https://github.com/Chanzhaoyu/chatgpt-web
@@ -150,48 +194,6 @@ Run:
 
 ````shell
 docker compose up -d
-````
-
-### Use ChatGPT-Next-Web
-
-docker-compose.yml
-
-````yaml
-version: '3'
-
-services:
-  chatgpt-web:
-    image: yidadaa/chatgpt-next-web
-    ports:
-      - 3000:3000
-    environment:
-      OPENAI_API_KEY: <Azure OpenAI API Key>
-      BASE_URL: http://azure-openai:8080
-      CODE: ""
-      HIDE_USER_API_KEY: 1
-      HIDE_BALANCE_QUERY: 1
-    depends_on:
-      - azure-openai
-    links:
-      - azure-openai
-    networks:
-      - chatgpt-ns
-
-  azure-openai:
-    image: stulzq/azure-openai-proxy
-    ports:
-      - 8080:8080
-    environment:
-      AZURE_OPENAI_ENDPOINT: <Azure OpenAI API Endpoint>
-      AZURE_OPENAI_MODEL_MAPPER: <Azure OpenAI API Deployment Mapper>
-      # AZURE_OPENAI_MODEL_MAPPER: gpt-4=gpt-4,gpt-3.5-turbo=gpt-35-turbo
-      AZURE_OPENAI_API_VER: 2023-07-01-preview
-    networks:
-      - chatgpt-ns
-
-networks:
-  chatgpt-ns:
-    driver: bridge
 ````
 
 ### Use Config File
