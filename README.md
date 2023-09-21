@@ -67,7 +67,7 @@ docker run -d -p 8080:8080 --name=azure-openai-proxy \
 
 # config by file
 docker run -d -p 8080:8080 --name=azure-openai-proxy \
-  -v /path/to/config-file.yaml:/app/config/config.yaml \
+  -v /path/to/config.yaml:/app/config.yaml \
   stulzq/azure-openai-proxy:latest
 ````
 
@@ -197,8 +197,6 @@ networks:
 
 The configuration file supports different endpoints and API keys for each model.
 
-
-
 config.yaml
 
 ````yaml
@@ -221,7 +219,20 @@ deployment_config:
     api_version: "2023-03-15-preview"
 ````
 
-
-
 By default, it reads `<workdir>/config.yaml`, and you can pass the path through the parameter `-c config.yaml`.
+
+docker-compose:
+
+````yaml
+azure-openai:
+    image: stulzq/azure-openai-proxy
+    ports:
+      - 8080:8080
+    volumes:
+      - /path/to/config.yaml:/app/config.yaml
+    networks:
+      - chatgpt-ns
+````
+
+
 
