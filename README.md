@@ -11,6 +11,7 @@
 English|[中文](https://www.cnblogs.com/stulzq/p/17271937.html)
 
 Azure OpenAI Service Proxy, convert OpenAI official API request to Azure OpenAI API request, support all models, support GPT-4,Embeddings.
+>Eliminate the differences between OpenAI and Azure OpenAI, acting as a bridge connecting them, OpenAI ecosystem accesses Azure OpenAI at zero cost.
 
 ![aoai-proxy.jpg](assets/images/aoai-proxy.jpg)
 
