@@ -4,12 +4,28 @@ import (
 	"context"
 	"encoding/base64"
 	"fmt"
+	"github.com/stulzq/azure-openai-proxy/constant"
 	"net"
 	"net/http"
 	"net/url"
+	"os"
 
 	"golang.org/x/net/proxy"
 )
+
+func NewProxyFromEnv() (*http.Transport, error) {
+	socksProxy := os.Getenv(constant.ENV_AZURE_OPENAI_SOCKS_PROXY)
+	if socksProxy != "" {
+		return NewSocksProxy(socksProxy)
+	}
+
+	httpProxy := os.Getenv(constant.ENV_AZURE_OPENAI_HTTP_PROXY)
+	if httpProxy != "" {
+		return NewHttpProxy(httpProxy)
+	}
+
+	return nil, nil
+}
 
 func NewHttpProxy(proxyAddress string) (*http.Transport, error) {
 	proxyURL, err := url.Parse(proxyAddress)

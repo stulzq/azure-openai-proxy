@@ -56,6 +56,27 @@ AZURE_OPENAI_MODEL_MAPPER: gpt-3.5-turbo=gpt-35-turbo
 
 API Key: This value can be found in the **Keys & Endpoint** section when examining your resource from the Azure portal. You can use either `KEY1` or `KEY2`. 
 
+### Proxy
+
+**HTTP Proxy**
+
+Env:
+
+````shell
+AZURE_OPENAI_HTTP_PROXY=http://127.0.0.1:1087
+````
+
+
+
+**Socks5 Proxy**
+
+Env:
+
+````shell
+AZURE_OPENAI_SOCKS_PROXY=socks5://127.0.0.1:1080
+````
+
+
 
 ### Use Docker
 

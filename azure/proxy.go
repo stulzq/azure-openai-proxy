@@ -85,6 +85,15 @@ func Proxy(c *gin.Context, requestConverter RequestConverter) {
 	}
 
 	proxy := &httputil.ReverseProxy{Director: director}
+	transport, err := util.NewProxyFromEnv()
+	if err != nil {
+		util.SendError(c, errors.Wrap(err, "get proxy error"))
+		return
+	}
+	if transport != nil {
+		proxy.Transport = transport
+	}
+
 	proxy.ServeHTTP(c.Writer, c.Request)
 
 	// issue: https://github.com/Chanzhaoyu/chatgpt-web/issues/831
