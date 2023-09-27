@@ -1,0 +1,17 @@
+{
+	"name": "Air",
+	"image": "cosmtrek/air",
+	"forwardPorts": [
+		"8080:8080"
+	],
+	"mounts": [
+		"source=${localWorkspaceFolder},target=/go/src/github.com/cosmtrek/hub,type=bind"
+	],
+	"workspaceFolder": "/go/src/github.com/cosmtrek/hub",
+	"postCreateCommand": "go mod download && air",
+	"customizations": {
+		"vscode": {
+			"terminal.integrated.cwd": "/go/src/github.com/cosmtrek/hub"
+		}
+	}
+}
