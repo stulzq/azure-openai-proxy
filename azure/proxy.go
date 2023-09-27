@@ -24,7 +24,7 @@ func ProxyWithConverter(requestConverter RequestConverter) gin.HandlerFunc {
 
 type DeploymentInfo struct {
 	Data   []map[string]interface{} `json:"data"`
-	Object string `json:"object"`
+	Object string                   `json:"object"`
 }
 
 func ModelProxy(c *gin.Context) {
