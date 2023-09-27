@@ -17,6 +17,7 @@ func registerRoute(r *gin.Engine) {
 	})
 	apiBase := viper.GetString("api_base")
 	stripPrefixConverter := azure.NewStripPrefixConverter(apiBase)
+	r.GET(stripPrefixConverter.Prefix+"/models", azure.ModelProxy)
 	templateConverter := azure.NewTemplateConverter("/openai/deployments/{{.DeploymentName}}/embeddings")
 	apiBasedRouter := r.Group(apiBase)
 	{
