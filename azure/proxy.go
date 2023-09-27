@@ -31,6 +31,16 @@ func Proxy(c *gin.Context, requestConverter RequestConverter) {
 		return
 	}
 
+	// preserve request body for error logging
+	var buf bytes.Buffer
+	tee := io.TeeReader(c.Request.Body, &buf)
+	bodyBytes, err := io.ReadAll(tee)
+	if err != nil {
+		log.Printf("Error reading request body: %v", err)
+		return
+	}
+	c.Request.Body = io.NopCloser(&buf)
+
 	director := func(req *http.Request) {
 		if req.Body == nil {
 			util.SendError(c, errors.New("request body is empty"))
@@ -101,6 +111,10 @@ func Proxy(c *gin.Context, requestConverter RequestConverter) {
 		if _, err := c.Writer.Write([]byte{'\n'}); err != nil {
 			log.Printf("rewrite response error: %v", err)
 		}
+	}
+
+	if c.Writer.Status() != 200 {
+		log.Printf("encountering error with body: %s", string(bodyBytes))
 	}
 }
 
