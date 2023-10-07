@@ -36,7 +36,7 @@ func main() {
 	registerRoute(r)
 
 	srv := &http.Server{
-		Addr:    ":8080",
+		Addr:    viper.GetString("listen"),
 		Handler: r,
 	}
 
@@ -64,6 +64,7 @@ func runServer(srv *http.Server) {
 
 func parseFlag() {
 	pflag.StringP("configFile", "c", "config.yaml", "config file")
+	pflag.StringP("listen", "l", ":8080", "listen address")
 	pflag.BoolP("version", "v", false, "version information")
 	pflag.Parse()
 	if err := viper.BindPFlags(pflag.CommandLine); err != nil {
