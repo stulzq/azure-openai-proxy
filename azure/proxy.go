@@ -106,7 +106,7 @@ func Proxy(c *gin.Context, requestConverter RequestConverter) {
 	if c.Request.Method == http.MethodOptions {
 		c.Header("Access-Control-Allow-Origin", "*")
 		c.Header("Access-Control-Allow-Methods", "GET, OPTIONS, POST")
-		c.Header("Access-Control-Allow-Headers", "Authorization, Content-Type")
+		c.Header("Access-Control-Allow-Headers", "Authorization, Content-Type, x-requested-with")
 		c.Status(200)
 		return
 	}
