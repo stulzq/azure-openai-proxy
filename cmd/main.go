@@ -70,7 +70,7 @@ func parseFlag() {
 	if err := viper.BindPFlags(pflag.CommandLine); err != nil {
 		panic(err)
 	}
-	if viper.GetBool("v") {
+	if viper.GetBool("version") {
 		fmt.Println("version:", version)
 		fmt.Println("buildDate:", buildDate)
 		fmt.Println("gitCommit:", gitCommit)
