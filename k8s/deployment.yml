@@ -55,9 +55,13 @@ spec:
             periodSeconds: 8
             successThreshold: 1
             timeoutSeconds: 2
-          envFrom:
-            - secretRef:
-                name: "{{ prefix }}-{{ project_name }}"
+          env:
+          - name: AZURE_OPENAI_ENDPOINT
+            value: ${AZURE_OPENAI_ENDPOINT}
+          - name: AZURE_OPENAI_MODEL_MAPPER
+            value: ${AZURE_OPENAI_MODEL_MAPPER}
+          - name: AZURE_OPENAI_API_VER
+            value: "2023-07-01-preview"
           resources:
             limits:
               cpu: 200m
