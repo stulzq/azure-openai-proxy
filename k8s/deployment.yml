@@ -63,6 +63,9 @@ spec:
             periodSeconds: 8
             successThreshold: 1
             timeoutSeconds: 2
+          envFrom:
+          - secretRef:
+              name: "{{ project_name }}-{{ env }}-secret"
           resources:
             limits:
               cpu: 200m
@@ -76,10 +79,7 @@ spec:
       volumes:
         - name: {{ project_name }}-{{ env }}-volume
           configMap:
-            name: {{ project_name }}-config
-            data:
-              AZURE_OPENAI_API_VER: "2023-07-01-preview"
-              
+            name: {{ project_name }}-config              
 ---
 apiVersion: v1
 kind: Service
