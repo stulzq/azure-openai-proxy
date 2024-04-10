@@ -2,13 +2,14 @@ package azure
 
 import (
 	"fmt"
-	"github.com/spf13/viper"
-	"github.com/stulzq/azure-openai-proxy/constant"
-	"github.com/stulzq/azure-openai-proxy/util"
 	"log"
 	"net/url"
 	"path/filepath"
 	"strings"
+
+	"github.com/spf13/viper"
+	"github.com/stulzq/azure-openai-proxy/constant"
+	"github.com/stulzq/azure-openai-proxy/util"
 )
 
 const (
@@ -25,17 +26,19 @@ func Init() error {
 		apiVersion        string
 		endpoint          string
 		openaiModelMapper string
+		apiKey            string
 		err               error
 	)
 
 	apiVersion = viper.GetString(constant.ENV_AZURE_OPENAI_API_VER)
 	endpoint = viper.GetString(constant.ENV_AZURE_OPENAI_ENDPOINT)
 	openaiModelMapper = viper.GetString(constant.ENV_AZURE_OPENAI_MODEL_MAPPER)
+	apiKey = viper.GetString(constant.ENV_AZURE_OPENAI_API_KEY)
 	if endpoint != "" && openaiModelMapper != "" {
 		if apiVersion == "" {
 			apiVersion = "2023-07-01-preview"
 		}
-		InitFromEnvironmentVariables(apiVersion, endpoint, openaiModelMapper)
+		InitFromEnvironmentVariables(apiVersion, endpoint, openaiModelMapper, apiKey)
 	} else {
 		if err = InitFromConfigFile(); err != nil {
 			return err
@@ -64,7 +67,7 @@ func Init() error {
 	return err
 }
 
-func InitFromEnvironmentVariables(apiVersion, endpoint, openaiModelMapper string) {
+func InitFromEnvironmentVariables(apiVersion, endpoint, openaiModelMapper, apiKey string) {
 	log.Println("Init from environment variables")
 	if openaiModelMapper != "" {
 		// openaiModelMapper example:
@@ -84,7 +87,7 @@ func InitFromEnvironmentVariables(apiVersion, endpoint, openaiModelMapper string
 				ModelName:      modelName,
 				Endpoint:       endpoint,
 				EndpointUrl:    u,
-				ApiKey:         "",
+				ApiKey:         apiKey,
 				ApiVersion:     apiVersion,
 			}
 		}
