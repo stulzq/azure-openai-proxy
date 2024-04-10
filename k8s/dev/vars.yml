@@ -1,0 +1,11 @@
+env: dev
+project_name: azure-openai-proxy
+prefix: "dev"
+namespace: "azure"
+fqdn: "{{ prefix }}-{{ project_name }}.app.scm.gomercury.in"
+tag: "{{ prefix }}-{{ build_number }}"
+context: scm-staging-eks
+env_during_build: True
+profile: gomercury
+min_replicas: 1
+max_replicas: 1

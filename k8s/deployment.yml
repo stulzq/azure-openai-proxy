@@ -1,0 +1,97 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ prefix }}-{{ project_name }}
+  namespace: {{ namespace }}
+  labels:
+    k8s-app: {{ prefix }}-{{ project_name }}
+spec:
+  progressDeadlineSeconds: 60
+  revisionHistoryLimit: 1
+  replicas: {{ min_replicas }}
+  selector:
+    matchLabels:
+      k8s-app: {{ prefix }}-{{ project_name }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        k8s-app: "{{ prefix }}-{{ project_name }}"
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: k8s-app
+                    operator: In
+                    values:
+                      - {{ prefix }}-{{ project_name }}
+              topologyKey: "kubernetes.io/hostname"
+      containers:
+        - name: {{ project_name }}
+          image: "774391698360.dkr.ecr.ap-south-1.amazonaws.com/{{ project_name }}:{{ tag }}"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            failureThreshold: 50
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 160
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 2
+          livenessProbe:
+            failureThreshold: 50
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 160
+            periodSeconds: 8
+            successThreshold: 1
+            timeoutSeconds: 2
+          envFrom:
+            - secretRef:
+                name: "{{ prefix }}-{{ project_name }}"
+          resources:
+            limits:
+              cpu: 200m
+              memory: 512Mi
+            requests:
+              cpu: 100m
+              memory: 256Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ prefix }}-{{ project_name }}
+  namespace: {{ namespace }}
+  labels:
+    k8s-svc: {{ prefix }}-{{ project_name }}
+spec:
+  ports:
+    - port: 8080
+      name: {{ project_name }}-port
+      targetPort: 8080
+      protocol: TCP
+  selector:
+    k8s-app: {{ prefix }}-{{ project_name }}
+  type: ClusterIP
+---
+apiVersion: getambassador.io/v2
+kind: Mapping
+metadata:
+  name: {{ prefix }}-{{ project_name }}
+  namespace: {{ namespace }}
+spec:
+  bypass_auth: true
+  host: {{ fqdn }}
+  prefix: /
+  service: {{ prefix }}-{{ project_name }}.{{ namespace }}:8080
+  timeout_ms: 200000
+
