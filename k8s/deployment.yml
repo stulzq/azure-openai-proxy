@@ -1,4 +1,12 @@
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ project_name }}-config
+  namespace: {{ namespace }}
+data:
+{{config_map_yaml | indent( width=4, indentfirst=True)}}
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -55,13 +63,6 @@ spec:
             periodSeconds: 8
             successThreshold: 1
             timeoutSeconds: 2
-          env:
-          - name: AZURE_OPENAI_ENDPOINT
-            value: ${AZURE_OPENAI_ENDPOINT}
-          - name: AZURE_OPENAI_MODEL_MAPPER
-            value: ${AZURE_OPENAI_MODEL_MAPPER}
-          - name: AZURE_OPENAI_API_VER
-            value: "2023-07-01-preview"
           resources:
             limits:
               cpu: 200m
@@ -69,6 +70,16 @@ spec:
             requests:
               cpu: 100m
               memory: 256Mi
+          volumeMounts:
+            - name: {{ project_name }}-{{ env }}-volume
+              mountPath: "/config"
+      volumes:
+        - name: {{ project_name }}-{{ env }}-volume
+          configMap:
+            name: {{ project_name }}-config
+            data:
+              AZURE_OPENAI_API_VER: "2023-07-01-preview"
+              
 ---
 apiVersion: v1
 kind: Service
