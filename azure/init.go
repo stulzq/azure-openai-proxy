@@ -7,6 +7,7 @@ import (
 	"github.com/stulzq/azure-openai-proxy/util"
 	"log"
 	"net/url"
+	"os"
 	"path/filepath"
 	"strings"
 )
@@ -99,6 +100,22 @@ func InitFromConfigFile() error {
 		configFile = filepath.Join(util.GetWorkdir(), "config.yaml")
 	} else if !filepath.IsAbs(configFile) {
 		configFile = filepath.Join(util.GetWorkdir(), configFile)
+	}
+
+	if _, err := os.Stat(configFile); os.IsNotExist(err) {
+		log.Printf("config file %s does not exist, falling back to environment variables", configFile)
+		apiVersion := viper.GetString(constant.ENV_AZURE_OPENAI_API_VER)
+		endpoint := viper.GetString(constant.ENV_AZURE_OPENAI_ENDPOINT)
+		openaiModelMapper := viper.GetString(constant.ENV_AZURE_OPENAI_MODEL_MAPPER)
+		if endpoint != "" && openaiModelMapper != "" {
+			if apiVersion == "" {
+				apiVersion = "2023-07-01-preview"
+			}
+			InitFromEnvironmentVariables(apiVersion, endpoint, openaiModelMapper)
+			return nil
+		} else {
+			return fmt.Errorf("config file %s does not exist and no environment variables set", configFile)
+		}
 	}
 
 	viper.SetConfigType("yaml")
