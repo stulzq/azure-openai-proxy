@@ -31,7 +31,7 @@ func Init() error {
 	apiVersion = viper.GetString(constant.ENV_AZURE_OPENAI_API_VER)
 	endpoint = viper.GetString(constant.ENV_AZURE_OPENAI_ENDPOINT)
 	openaiModelMapper = viper.GetString(constant.ENV_AZURE_OPENAI_MODEL_MAPPER)
-	if endpoint != "" && openaiModelMapper != "" {
+	if endpoint != "" {
 		if apiVersion == "" {
 			apiVersion = "2023-07-01-preview"
 		}
