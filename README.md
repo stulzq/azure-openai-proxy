@@ -33,7 +33,7 @@ To successfully make a call against Azure OpenAI, you'll need the following:
 | Name                  | Desc                                                         | Default                                                  |
 | --------------------- | ------------------------------------------------------------ | ----------------------------- |
 | AZURE_OPENAI_ENDPOINT | This value can be found in the **Keys & Endpoint** section when examining your resource from the Azure portal. Alternatively, you can find the value in **Azure OpenAI Studio** > **Playground** > **Code View**. An example endpoint is: `https://docs-test-001.openai.azure.com/`. | N |
-| AZURE_OPENAI_API_VER  | [See here](https://learn.microsoft.com/en-us/azure/cognitive-services/openai/quickstart?tabs=command-line&pivots=rest-api) or Azure OpenAI Studio | 2023-07-01-preview |
+| AZURE_OPENAI_API_VER  | [See here](https://learn.microsoft.com/en-us/azure/cognitive-services/openai/quickstart?tabs=command-line&pivots=rest-api) or Azure OpenAI Studio | 2024-02-01     |
 | AZURE_OPENAI_MODEL_MAPPER   | This value will correspond to the custom name you chose for your deployment when you deployed a model. This value can be found under **Resource Management** > **Deployments** in the Azure portal or alternatively under **Management** > **Deployments** in Azure OpenAI Studio. | N |
 
 `AZURE_OPENAI_MODEL_MAPPER` is a mapping from Azure OpenAI deployed model names to official OpenAI model names. You can use commas to separate multiple mappings.
@@ -151,7 +151,7 @@ services:
       AZURE_OPENAI_ENDPOINT: <Azure OpenAI API Endpoint>
       AZURE_OPENAI_MODEL_MAPPER: <Azure OpenAI API Deployment Mapper>
       # AZURE_OPENAI_MODEL_MAPPER: gpt-4=gpt-4,gpt-3.5-turbo=gpt-35-turbo
-      AZURE_OPENAI_API_VER: 2023-07-01-preview
+      AZURE_OPENAI_API_VER: "2024-02-01"
     networks:
       - chatgpt-ns
 
@@ -203,7 +203,7 @@ services:
     environment:
       AZURE_OPENAI_ENDPOINT: <Azure OpenAI API Endpoint>
       AZURE_OPENAI_MODEL_MAPPER: <Azure OpenAI API Deployment Mapper>
-      AZURE_OPENAI_API_VER: 2023-07-01-preview
+      AZURE_OPENAI_API_VER: "2024-02-01"
     networks:
       - chatgpt-ns
 
@@ -231,17 +231,17 @@ deployment_config:
     model_name: "text-davinci-003"
     endpoint: "https://xxx-east-us.openai.azure.com/"
     api_key: "11111111111"
-    api_version: "2023-03-15-preview"
+    api_version: "2024-02-01"
   - deployment_name: "yyy"
     model_name: "gpt-3.5-turbo"
     endpoint: "https://yyy.openai.azure.com/"
     api_key: "11111111111"
-    api_version: "2023-03-15-preview"
+    api_version: "2024-02-01"
   - deployment_name: "zzzz"
     model_name: "text-embedding-ada-002"
     endpoint: "https://zzzz.openai.azure.com/"
     api_key: "11111111111"
-    api_version: "2023-03-15-preview"
+    api_version: "2024-02-01"
 ````
 
 By default, it reads `<workdir>/config.yaml`, and you can pass the path through the parameter `-c config.yaml`.
