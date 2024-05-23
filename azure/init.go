@@ -33,7 +33,7 @@ func Init() error {
 	openaiModelMapper = viper.GetString(constant.ENV_AZURE_OPENAI_MODEL_MAPPER)
 	if endpoint != "" {
 		if apiVersion == "" {
-			apiVersion = "2023-07-01-preview"
+			apiVersion = "2024-02-01"
 		}
 		InitFromEnvironmentVariables(apiVersion, endpoint, openaiModelMapper)
 	} else {
