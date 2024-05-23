@@ -68,9 +68,9 @@ func InitFromEnvironmentVariables(apiVersion, endpoint, openaiModelMapper string
 	log.Println("Init from environment variables")
 	if openaiModelMapper != "" {
 		// openaiModelMapper example:
-		// gpt-3.5-turbo=deployment_name_for_gpt_model,text-davinci-003=deployment_name_for_davinci_model
+		// gpt-3.5-turbo:deployment_name_for_gpt_model,text-davinci-003:deployment_name_for_davinci_model
 		for _, pair := range strings.Split(openaiModelMapper, ",") {
-			info := strings.Split(pair, "=")
+			info := strings.Split(pair, ":")
 			if len(info) != 2 {
 				log.Fatalf("error parsing %s, invalid value %s", constant.ENV_AZURE_OPENAI_MODEL_MAPPER, pair)
 			}
