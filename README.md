@@ -259,5 +259,7 @@ azure-openai:
       - chatgpt-ns
 ````
 
+## Develop
 
+Start [DevContainer](https://code.visualstudio.com/docs/devcontainers/containers#_getting-started) in VSCode / IntelliJ and you are good to go 😉, docker is the ONLY dependency.
 

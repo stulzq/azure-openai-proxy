@@ -1,0 +1,19 @@
+root = "."
+tmp_dir = "tmp"
+
+[build]
+  bin = "./tmp/main"
+  cmd = "go build -o ./tmp/main ./cmd/"
+  delay = 0
+  exclude_dir = ["assets", "tmp", "examples"]
+  include_ext = ["go"]
+  log = "build-errors.log"
+  poll_interval = 0
+  rerun = false
+
+[misc]
+  clean_on_exit = false
+
+[screen]
+  clear_on_rebuild = false
+  keep_scroll = true
