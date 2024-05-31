@@ -10,4 +10,7 @@ fmt:
 vet:
 	go vet ./...
 
+image:
+	docker build -t azure-openai-proxy:latest .
+
 .PHONY: build fmt vet

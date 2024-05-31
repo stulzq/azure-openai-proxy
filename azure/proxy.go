@@ -2,19 +2,26 @@ package azure
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/stulzq/azure-openai-proxy/util"
 	"io"
 	"log"
 	"net/http"
 	"net/http/httputil"
 	"strings"
 
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore/policy"
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/stulzq/azure-openai-proxy/util"
+
 	"github.com/bytedance/sonic"
 	"github.com/gin-gonic/gin"
 	"github.com/pkg/errors"
 )
+
+const cognitiveservicesScope = "https://cognitiveservices.azure.com/.default"
 
 func ProxyWithConverter(requestConverter RequestConverter) gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -43,7 +50,7 @@ func ModelProxy(c *gin.Context) {
 			}
 
 			// Set the auth header
-			req.Header.Set(AuthHeaderKey, deployment.ApiKey)
+			req.Header.Set(APIKeyHeaderKey, deployment.ApiKey)
 
 			// Send the request
 			client := &http.Client{}
@@ -69,14 +76,14 @@ func ModelProxy(c *gin.Context) {
 			}
 
 			// Parse the response body as JSON
-			var deplotmentInfo DeploymentInfo
-			err = json.Unmarshal(body, &deplotmentInfo)
+			var deploymentInfo DeploymentInfo
+			err = json.Unmarshal(body, &deploymentInfo)
 			if err != nil {
 				log.Printf("error parsing response body for deployment %s: %v", deployment.DeploymentName, err)
 				results <- nil
 				return
 			}
-			results <- deplotmentInfo.Data
+			results <- deploymentInfo.Data
 		}(deployment)
 	}
 
@@ -152,18 +159,37 @@ func Proxy(c *gin.Context, requestConverter RequestConverter) {
 			return
 		}
 
-		// get auth token from header or deployemnt config
+		// get auth token from header or deployment config
 		token := deployment.ApiKey
-		if token == "" {
+		if token == "" && token != "msi" {
 			rawToken := req.Header.Get("Authorization")
 			token = strings.TrimPrefix(rawToken, "Bearer ")
+			req.Header.Set(APIKeyHeaderKey, token)
+			req.Header.Del("Authorization")
 		}
-		if token == "" {
+		// get azure token using managed identity
+		var azureToken azcore.AccessToken
+		if token == "" || token == "msi" {
+			cred, err := azidentity.NewManagedIdentityCredential(nil)
+			if err != nil {
+				util.SendError(c, errors.Wrap(err, "failed to create managed identity credential"))
+			}
+
+			azureToken, err = cred.GetToken(context.TODO(), policy.TokenRequestOptions{
+				Scopes: []string{cognitiveservicesScope},
+			})
+			if err != nil {
+				util.SendError(c, errors.Wrap(err, "failed to get token"))
+			}
+
+			req.Header.Del(APIKeyHeaderKey)
+			req.Header.Set(AuthHeaderKey, "Bearer "+azureToken.Token)
+		}
+
+		if token == "" && azureToken.Token == ""{
 			util.SendError(c, errors.New("token is empty"))
 			return
 		}
-		req.Header.Set(AuthHeaderKey, token)
-		req.Header.Del("Authorization")
 
 		originURL := req.URL.String()
 		req, err = requestConverter.Convert(req, deployment)

@@ -2,17 +2,19 @@ package azure
 
 import (
 	"fmt"
-	"github.com/spf13/viper"
-	"github.com/stulzq/azure-openai-proxy/constant"
-	"github.com/stulzq/azure-openai-proxy/util"
 	"log"
 	"net/url"
 	"path/filepath"
 	"strings"
+
+	"github.com/spf13/viper"
+	"github.com/stulzq/azure-openai-proxy/constant"
+	"github.com/stulzq/azure-openai-proxy/util"
 )
 
 const (
-	AuthHeaderKey = "api-key"
+	AuthHeaderKey = "Authorization"
+	APIKeyHeaderKey = "api-key"
 )
 
 var (
