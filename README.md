@@ -54,7 +54,7 @@ AZURE_OPENAI_MODEL_MAPPER: gpt-3.5-turbo=gpt-35-turbo
 
 ![Screenshot of the overview UI for an OpenAI Resource in the Azure portal with the endpoint & access keys location circled in red.](assets/images/endpoint.png)
 
-API Key: This value can be found in the **Keys & Endpoint** section when examining your resource from the Azure portal. You can use either `KEY1` or `KEY2`. 
+API Key: This value can be found in the **Keys & Endpoint** section when examining your resource from the Azure portal. You can use either `KEY1` or `KEY2`. If you want to use [Azure Managed Identity](https://learn.microsoft.com/en-us/entra/identity/managed-identities-azure-resources/overview), you can leave it blank or use `msi` as the key (if a key is required) and it will use managed identity to authenticate.
 
 ### Proxy
 
@@ -81,7 +81,7 @@ AZURE_OPENAI_SOCKS_PROXY=socks5://127.0.0.1:1080
 ### Use Docker
 
 ````shell
-# config by environment 
+# config by environment
 docker run -d -p 8080:8080 --name=azure-openai-proxy \
   --env AZURE_OPENAI_ENDPOINT=your_azure_endpoint \
   --env AZURE_OPENAI_API_VER=your_azure_api_ver \

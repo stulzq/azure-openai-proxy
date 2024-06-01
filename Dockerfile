@@ -1,11 +1,11 @@
-FROM golang:1.19 AS builder
+FROM golang:1.22-bookworm AS builder
 
 COPY . /builder
 WORKDIR /builder
 
 RUN make build
 
-FROM alpine:3
+FROM gcr.io/distroless/static-debian12:latest
 
 WORKDIR /app
 
