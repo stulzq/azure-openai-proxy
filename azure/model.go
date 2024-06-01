@@ -3,7 +3,6 @@ package azure
 import (
 	"bytes"
 	"fmt"
-	"github.com/pkg/errors"
 	"log"
 	"net/http"
 	"net/url"
@@ -74,7 +73,7 @@ func (c *TemplateConverter) Convert(req *http.Request, config *DeploymentConfig)
 	}
 	buff := new(bytes.Buffer)
 	if err := c.Tempalte.Execute(buff, data); err != nil {
-		return req, errors.Wrap(err, "template execute error")
+		return req, fmt.Errorf("template execute error: %w", err)
 	}
 
 	req.Host = config.EndpointUrl.Host

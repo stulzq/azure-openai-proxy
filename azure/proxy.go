@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"log"
@@ -18,7 +19,6 @@ import (
 
 	"github.com/bytedance/sonic"
 	"github.com/gin-gonic/gin"
-	"github.com/pkg/errors"
 )
 
 const cognitiveservicesScope = "https://cognitiveservices.azure.com/.default"
@@ -141,12 +141,12 @@ func Proxy(c *gin.Context, requestConverter RequestConverter) {
 		if model == "" {
 			_model, err := sonic.Get(body, "model")
 			if err != nil {
-				util.SendError(c, errors.Wrap(err, "get model error"))
+				util.SendError(c, fmt.Errorf("get model error: %w", err))
 				return
 			}
 			_modelStr, err := _model.String()
 			if err != nil {
-				util.SendError(c, errors.Wrap(err, "get model name error"))
+				util.SendError(c, fmt.Errorf("get model name error: %w", err))
 				return
 			}
 			model = _modelStr
@@ -161,32 +161,35 @@ func Proxy(c *gin.Context, requestConverter RequestConverter) {
 
 		// get auth token from header or deployment config
 		token := deployment.ApiKey
+		tokenFound := false
 		if token == "" && token != "msi" {
 			rawToken := req.Header.Get("Authorization")
 			token = strings.TrimPrefix(rawToken, "Bearer ")
 			req.Header.Set(APIKeyHeaderKey, token)
 			req.Header.Del("Authorization")
+			tokenFound = true
 		}
 		// get azure token using managed identity
 		var azureToken azcore.AccessToken
 		if token == "" || token == "msi" {
 			cred, err := azidentity.NewManagedIdentityCredential(nil)
 			if err != nil {
-				util.SendError(c, errors.Wrap(err, "failed to create managed identity credential"))
+				util.SendError(c, fmt.Errorf("failed to create managed identity credential: %w", err))
 			}
 
 			azureToken, err = cred.GetToken(context.TODO(), policy.TokenRequestOptions{
 				Scopes: []string{cognitiveservicesScope},
 			})
 			if err != nil {
-				util.SendError(c, errors.Wrap(err, "failed to get token"))
+				util.SendError(c, fmt.Errorf("failed to get token: %w", err))
 			}
 
 			req.Header.Del(APIKeyHeaderKey)
 			req.Header.Set(AuthHeaderKey, "Bearer "+azureToken.Token)
+			tokenFound = true
 		}
 
-		if token == "" && azureToken.Token == ""{
+		if !tokenFound {
 			util.SendError(c, errors.New("token is empty"))
 			return
 		}
@@ -194,7 +197,7 @@ func Proxy(c *gin.Context, requestConverter RequestConverter) {
 		originURL := req.URL.String()
 		req, err = requestConverter.Convert(req, deployment)
 		if err != nil {
-			util.SendError(c, errors.Wrap(err, "convert request error"))
+			util.SendError(c, fmt.Errorf("convert request error: %w", err))
 			return
 		}
 		log.Printf("proxying request [%s] %s -> %s", model, originURL, req.URL.String())
@@ -203,7 +206,7 @@ func Proxy(c *gin.Context, requestConverter RequestConverter) {
 	proxy := &httputil.ReverseProxy{Director: director}
 	transport, err := util.NewProxyFromEnv()
 	if err != nil {
-		util.SendError(c, errors.Wrap(err, "get proxy error"))
+		util.SendError(c, fmt.Errorf("get proxy error: %w", err))
 		return
 	}
 	if transport != nil {
@@ -227,7 +230,7 @@ func Proxy(c *gin.Context, requestConverter RequestConverter) {
 func GetDeploymentByModel(model string) (*DeploymentConfig, error) {
 	deploymentConfig, exist := ModelDeploymentConfig[model]
 	if !exist {
-		return nil, errors.New(fmt.Sprintf("deployment config for %s not found", model))
+		return nil, fmt.Errorf("deployment config for %s not found", model)
 	}
 	return &deploymentConfig, nil
 }

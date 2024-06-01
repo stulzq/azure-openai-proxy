@@ -3,17 +3,17 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/spf13/pflag"
-	"github.com/spf13/viper"
-	"github.com/stulzq/azure-openai-proxy/azure"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
 
+	"github.com/spf13/pflag"
+	"github.com/spf13/viper"
+	"github.com/stulzq/azure-openai-proxy/azure"
+
 	"github.com/gin-gonic/gin"
-	"github.com/pkg/errors"
 )
 
 var (
@@ -74,7 +74,7 @@ func runServer(srv *http.Server) {
 	go func() {
 		log.Printf("Server listening at %s\n", srv.Addr)
 		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			panic(errors.Errorf("listen: %s\n", err))
+			panic(fmt.Errorf("listen: %w", err))
 		}
 	}()
 
